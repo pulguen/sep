@@ -73,6 +73,7 @@ api.interceptors.response.use(
         const newToken = resp.data.access
         setTokens({ access: newToken })
         api.defaults.headers.common['Authorization'] = 'Bearer ' + newToken
+        window.dispatchEvent(new CustomEvent('token-refreshed', { detail: { access: newToken } }))
         processQueue(null, newToken)
         isRefreshing = false
         originalRequest.headers['Authorization'] = 'Bearer ' + newToken

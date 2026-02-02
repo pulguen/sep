@@ -4,6 +4,7 @@ from . import views
 
 router = routers.DefaultRouter()
 router.register(r'persons', views.PersonViewSet)
+router.register(r'audit-logs', views.AuditLogViewSet)
 
 urlpatterns = [
     path('hello/', views.hello, name='hello'),
