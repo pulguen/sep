@@ -8,9 +8,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Cargar .env (si existe)
 load_dotenv(os.path.join(BASE_DIR, '.env'))
 
+# Solo para debug local de auth (desactivar en prod)
+LOG_AUTH_PAYLOAD = os.getenv('LOG_AUTH_PAYLOAD', 'False') == 'True'
+
 SECRET_KEY = os.getenv('SECRET_KEY', 'cambia_esta_clave_en_produccion')
 DEBUG = os.getenv('DEBUG', 'True') == 'True'
-ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', '127.0.0.1,localhost').split(',')
+ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', '127.0.0.1,localhost,192.168.1.45').split(',')
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -75,7 +78,10 @@ STATIC_URL = '/static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Configuración de CORS/CSRF para desarrollo
-CORS_ALLOWED_ORIGINS = os.getenv('CORS_ALLOWED_ORIGINS', 'http://localhost:5173,http://localhost:5174').split(',')
+CORS_ALLOWED_ORIGINS = os.getenv(
+    'CORS_ALLOWED_ORIGINS',
+    'http://localhost:5173,http://localhost:5174,http://localhost:5175,http://192.168.1.45:5174,http://192.168.1.45:5175'
+).split(',')
 CSRF_TRUSTED_ORIGINS = [origin.replace('http://', 'https://') if origin.startswith('http://') else origin for origin in CORS_ALLOWED_ORIGINS]
 CORS_ALLOW_CREDENTIALS = os.getenv('CORS_ALLOW_CREDENTIALS', 'True') == 'True'
 
